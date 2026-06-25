@@ -1,5 +1,3 @@
-#Status: ongoing
-
 #Quantum Randomness Generator + Statistical Tester
 from qiskit import QuantumCircuit, Aer, execute
 
@@ -13,7 +11,7 @@ backend = Aer.get_backend("qasm_simulator")
 job = execute(qc, backend, shots = 1024)
 
 result = job.result()
-counts = results.get_counts()
+counts = result.get_counts()
 
 print(counts)
 
@@ -24,4 +22,20 @@ total_shots = zero + one
 zero_probability = zero/total_shots 
 one_probability = one/total_shots
 
-# note: zero_probability + one_probability  should be = 1.0
+# note: zero_probability + one_probability should be = 1.0
+
+# deviation measurement
+ideal = 0.5
+
+bias = abs(zero_probability - ideal)
+
+def classify_bias(bias):
+if bias < 0.05:
+    return "fair"
+elif 0.05 < bias < 0.1: 
+    return "slightly biased"
+elif bias > 0.1:
+    return "biased"
+
+result = classify_bias(bias)
+print(result)
